@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mirror Mirror, What Art Am I? — Randall Barriga</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0e17;
+      --bg-secondary: #151b2b;
+      --accent-cyan: #00d9ff;
+      --accent-orange: #ff6b35;
+      --accent-yellow: #f7b731;
+      --text-primary: #e8edf4;
+      --text-secondary: #8a94a6;
+      --grid-color: rgba(0, 217, 255, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Crimson Pro", serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.3;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      animation: scan 8s linear infinite;
+      z-index: 1000;
+      pointer-events: none;
+    }
+
+    @keyframes scan {
+      0% { top: 0; opacity: 1; }
+      100% { top: 100vh; opacity: 0; }
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 14, 23, 0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--grid-color);
+    }
+
+    .nav-logo {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .nav-back {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-back:hover { color: var(--accent-cyan); }
+    .nav-back::before { content: "←"; }
+
+    /* ── HERO ── */
+    .hero {
+      padding: 160px 48px 80px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .project-type {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .project-type::before {
+      content: "";
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent-cyan);
+    }
+
+    h1 {
+      font-size: clamp(42px, 6vw, 72px);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--accent-cyan);
+    }
+
+    .hero-lead {
+      font-size: 22px;
+      color: var(--text-secondary);
+      max-width: 680px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-bottom: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--grid-color);
+    }
+
+    .meta-item { display: flex; flex-direction: column; gap: 6px; }
+
+    .meta-label {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-orange);
+    }
+
+    .meta-value {
+      font-size: 15px;
+      color: var(--text-primary);
+    }
+
+    /* ── VISUAL PLACEHOLDER ── */
+    .hero-visual {
+      width: 100%;
+      aspect-ratio: 16/7;
+      background: var(--bg-secondary);
+      border: 1px solid var(--grid-color);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 80px;
+    }
+
+    .hero-visual .visual-label {
+      background: rgba(10,14,23,0.7);
+      padding: 4px 12px;
+    }
+
+    .visual-label {
+      position: absolute;
+      bottom: 20px;
+      left: 24px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+    }
+
+    .visual-corner {
+      position: absolute;
+      width: 20px; height: 20px;
+      border-color: var(--accent-cyan);
+      border-style: solid;
+    }
+    .vc-tl { top: 12px; left: 12px; border-width: 1px 0 0 1px; }
+    .vc-tr { top: 12px; right: 12px; border-width: 1px 1px 0 0; }
+    .vc-bl { bottom: 12px; left: 12px; border-width: 0 0 1px 1px; }
+    .vc-br { bottom: 12px; right: 12px; border-width: 0 1px 1px 0; }
+
+    /* ── CONTENT ── */
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 48px 120px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Section header */
+    .section-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      color: var(--accent-cyan);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-tag::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--grid-color);
+      max-width: 300px;
+    }
+
+    h2 {
+      font-size: 36px;
+      font-weight: 300;
+      margin-bottom: 32px;
+      color: var(--text-primary);
+    }
+
+    .body-text {
+      font-size: 19px;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 720px;
+    }
+
+    .body-text + .body-text { margin-top: 20px; }
+
+    .body-text strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Pull quote */
+    blockquote {
+      margin: 56px 0;
+      padding: 40px 48px;
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent-cyan);
+      position: relative;
+    }
+
+    blockquote::before {
+      content: "\201C";
+      position: absolute;
+      top: 16px; left: 24px;
+      font-size: 80px;
+      color: var(--accent-cyan);
+      opacity: 0.2;
+      font-family: "Crimson Pro", serif;
+      line-height: 1;
+    }
+
+    blockquote p {
+      font-size: 24px;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    /* Grid layout for concept sections */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin: 56px 0;
+    }
+
+    @media (max-width: 768px) { .two-col { grid-template-columns: 1fr; } }
+
+    .concept-card {
+      padding: 36px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--grid-color);
+      position: relative;
+    }
+
+    .concept-card::before {
+      content: attr(data-num);
+      position: absolute;
+      top: 20px; right: 24px;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      color: var(--accent-cyan);
+      opacity: 0.4;
+      letter-spacing: 2px;
+    }
+
+    .concept-card h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      color: var(--accent-cyan);
+      font-family: "JetBrains Mono", monospace;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .concept-card p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Six styles visual */
+    .styles-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 12px;
+      margin: 48px 0;
+    }
+
+    @media (max-width: 768px) { .styles-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .style-cell {
+      aspect-ratio: 3/4;
+      background: var(--bg-secondary);
+      border: 1px solid var(--grid-color);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 12px 8px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .style-cell:hover { border-color: var(--accent-cyan); }
+
+    .style-cell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      opacity: 0.15;
+    }
+
+    .style-cell[data-style="utopian"]::before    { background: radial-gradient(circle at 50% 30%, #00d9ff, transparent 70%); }
+    .style-cell[data-style="romantic"]::before   { background: radial-gradient(circle at 50% 30%, #f7b731, transparent 70%); }
+    .style-cell[data-style="brutalist"]::before  { background: radial-gradient(circle at 50% 30%, #8a94a6, transparent 70%); }
+    .style-cell[data-style="surreal"]::before    { background: radial-gradient(circle at 50% 30%, #b388ff, transparent 70%); }
+    .style-cell[data-style="decayed"]::before    { background: radial-gradient(circle at 50% 30%, #ff6b35, transparent 70%); }
+    .style-cell[data-style="dystopian"]::before  { background: radial-gradient(circle at 50% 30%, #ff2d55, transparent 70%); }
+
+    .style-name {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Tech stack row */
+    .tech-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 40px 0;
+    }
+
+    .tech-tag {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      padding: 6px 14px;
+      background: rgba(0, 217, 255, 0.08);
+      border: 1px solid var(--accent-cyan);
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* Output samples grid */
+    .output-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px 40px;
+      margin: 40px 0;
+    }
+
+    @media (max-width: 768px) { .output-grid { grid-template-columns: 1fr; } }
+
+    .output-item { display: flex; flex-direction: column; gap: 20px; }
+
+    .output-frame {
+      border: 1px solid var(--grid-color);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .output-frame img {
+      width: 100%;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .output-frame:hover img { transform: scale(1.02); }
+
+    .output-label {
+      display: block;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--accent-cyan);
+      margin-bottom: 10px;
+    }
+
+    .output-caption p {
+      font-size: 17px;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Exhibition documentation */
+    .exhibit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin: 40px 0 24px;
+    }
+
+    @media (max-width: 768px) { .exhibit-grid { grid-template-columns: 1fr; } }
+
+    .exhibit-grid figure,
+    .concept-figure {
+      margin: 0;
+      border: 1px solid var(--grid-color);
+      background: var(--bg-secondary);
+      overflow: hidden;
+    }
+
+    .exhibit-grid img,
+    .concept-figure img {
+      width: 100%;
+      display: block;
+    }
+
+    .exhibit-grid img { aspect-ratio: 4/3; object-fit: cover; }
+
+    .exhibit-grid figcaption,
+    .concept-figure figcaption {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--grid-color);
+    }
+
+    .concept-figure { margin-top: 40px; }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--grid-color);
+      margin: 72px 0;
+    }
+
+    /* Research questions */
+    .rq-list {
+      list-style: none;
+      margin: 32px 0;
+    }
+
+    .rq-list li {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--grid-color);
+    }
+
+    .rq-num {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 11px;
+      color: var(--accent-orange);
+      letter-spacing: 2px;
+      padding-top: 4px;
+      min-width: 36px;
+    }
+
+    .rq-text {
+      font-size: 20px;
+      color: var(--text-primary);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* CTA footer */
+    .case-footer {
+      margin-top: 96px;
+      padding-top: 48px;
+      border-top: 1px solid var(--grid-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+    }
+
+    .footer-text {
+      font-size: 18px;
+      color: var(--text-secondary);
+    }
+
+    .cta-link {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 13px;
+      color: var(--accent-cyan);
+      text-decoration: none;
+      border-bottom: 2px solid var(--accent-cyan);
+      padding-bottom: 4px;
+      transition: all 0.3s;
+    }
+
+    .cta-link:hover {
+      color: var(--accent-orange);
+      border-color: var(--accent-orange);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-logo">Curiosity_Engine.ch</a>
+    <a href="/#work" class="nav-back">All Projects</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="project-type">Interactive Installation · 2025–2026</div>
+    <h1>Mirror Mirror,<br><em>What Art Am I?</em></h1>
+    <p class="hero-lead">
+      An interactive AI mirror that analyses visitors through computer vision and sentiment analysis,
+      generating personalised portraits using six custom-trained LoRA models — each encoding a distinct
+      aesthetic world from utopian to dystopian.
+    </p>
+
+    <div class="meta-row">
+      <div class="meta-item">
+        <span class="meta-label">Role</span>
+        <span class="meta-value">Concept, Design & Development</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Context</span>
+        <span class="meta-value">CAS AI for Creative Practices · ZHdK / UniBe</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Timeline</span>
+        <span class="meta-value">2025 – 2026</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Status</span>
+        <span class="meta-value">Exhibited 10 July 2026</span>
+      </div>
+    </div>
+
+    <!-- HERO VISUAL -->
+    <div class="hero-visual">
+      <div class="vc-tl visual-corner"></div>
+      <div class="vc-tr visual-corner"></div>
+      <div class="vc-bl visual-corner"></div>
+      <div class="vc-br visual-corner"></div>
+      <img src="images/mirror-mirror-exhibition-02.jpg" alt="A visitor faces the wooden-framed AI mirror; the words “Every trace you leave becomes a portrait.” float on the glass above the visitor’s reflection" style="width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block;opacity:0.92;">
+      <span class="visual-label">Exhibition view · ZHdK / UniBe · 10.07.2026</span>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- CONCEPT -->
+    <div class="section-tag">Concept & Research Question</div>
+    <h2>When a machine looks at you,<br>what does it see?</h2>
+
+    <p class="body-text">
+      Every time we interact with an AI system, it is quietly categorising us — reading our gestures,
+      expressions, and presence through layers of learned pattern and statistical inference. We rarely
+      get to see the result. <strong>Mirror Mirror</strong> makes that invisible process visible,
+      turning algorithmic perception into a tangible, aesthetic experience.
+    </p>
+
+    <p class="body-text" style="margin-top: 20px;">
+      Visitors stand before the mirror as both subject and participant. The system observes —
+      analysing facial expression, emotional tone, and voice — then generates a personalised portrait
+      in real time, rendered through one of six distinct artistic styles. The portrait is not a
+      photograph. It is the machine's interpretation of you.
+    </p>
+
+    <blockquote>
+      <p>How does AI categorise us? And what does algorithmic seeing reveal about the assumptions
+      baked into the systems we build?</p>
+    </blockquote>
+
+    <!-- THE TWO TENSIONS -->
+    <div class="two-col">
+      <div class="concept-card" data-num="01">
+        <h3>Algorithmic Legibility</h3>
+        <p>
+          Machine learning systems don't perceive neutrally — they carry the biases of their training
+          data and design choices. This project asks visitors to reckon with that: the portrait you
+          receive isn't who you are, but who the machine decides you look like.
+        </p>
+      </div>
+      <div class="concept-card" data-num="02">
+        <h3>Aesthetic as Argument</h3>
+        <p>
+          Six LoRA models — each encoding a distinct visual world — were designed as a spectrum
+          of possible futures: utopian clarity, romantic warmth, brutalist rigour, surrealist
+          unease, decayed beauty, and dystopian shadow. Style here is not decoration; it is meaning.
+        </p>
+      </div>
+    </div>
+
+    <!-- SIX STYLES -->
+    <div class="section-tag">The Six Style Models</div>
+    <p class="body-text">
+      Each LoRA model was trained on a curated dataset selected to embody a specific aesthetic
+      philosophy — not just a visual style, but a way of seeing and interpreting the world.
+    </p>
+
+    <div class="styles-grid">
+      <div class="style-cell" data-style="utopian" style="padding:0;overflow:hidden;">
+        <img src="images/mm-bioluminescence.png" alt="Bioluminescent portrait — utopian style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Utopian</span>
+      </div>
+      <div class="style-cell" data-style="romantic" style="padding:0;overflow:hidden;">
+        <img src="images/mm-romantic.png" alt="Baroque drapery portrait — romantic style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Romantic</span>
+      </div>
+      <div class="style-cell" data-style="brutalist" style="padding:0;overflow:hidden;">
+        <img src="images/mm-geometric.png" alt="Geometric tessellated portrait — brutalist style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Brutalist</span>
+      </div>
+      <div class="style-cell" data-style="surreal" style="padding:0;overflow:hidden;">
+        <img src="images/mm-surveillance.png" alt="Surveillance thermal portrait — surrealist style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Surrealist</span>
+      </div>
+      <div class="style-cell" data-style="decayed" style="padding:0;overflow:hidden;">
+        <img src="images/mm-decayed.png" alt="Botanical underwater portrait — decayed style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Decayed</span>
+      </div>
+      <div class="style-cell" data-style="dystopian" style="padding:0;overflow:hidden;">
+        <img src="images/mm-glitch.png" alt="Glitch data-stream portrait — dystopian style" style="width:100%;height:100%;object-fit:cover;display:block;">
+        <span class="style-name" style="position:absolute;bottom:10px;left:0;right:0;text-align:center;background:rgba(10,14,23,0.7);padding:4px 0;">Dystopian</span>
+      </div>
+    </div>
+
+    <!-- OUTPUT SAMPLES -->
+    <div class="section-tag" style="margin-top: 64px;">Model Outputs</div>
+    <p class="body-text">All six generated portraits — each produced by a distinct LoRA model encoding a different aesthetic world.</p>
+
+    <div class="output-grid">
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-bioluminescence.png" alt="Bioluminescent portrait — utopian LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Utopian Model</span>
+          <p>The face dissolves into bioluminescent particles and light — identity as something radiant, dispersing, becoming part of something larger than itself.</p>
+        </div>
+      </div>
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-romantic.png" alt="Baroque drapery portrait — romantic LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Romantic Model</span>
+          <p>Rubens-style dramatic drapery, gold embroidery, glittering skin — the subject recast as a painting of overwhelming sensory richness and ornamental excess.</p>
+        </div>
+      </div>
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-geometric.png" alt="Tessellated portrait — brutalist LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Brutalist Model</span>
+          <p>The face overlaid with Escher-style tessellations — a portrait constructed from interlocking pattern, suggesting a self built from repeating systems.</p>
+        </div>
+      </div>
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-surveillance.png" alt="Surveillance thermal portrait — surrealist LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Surrealist Model</span>
+          <p>VHS thermal imaging reframes the subject as data — a heat signature captured by an indifferent system, reduced to signal and noise.</p>
+        </div>
+      </div>
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-decayed.png" alt="Botanical underwater portrait — decayed LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Decayed Model</span>
+          <p>The face absorbed into botanical micro-texture — lily pads, spores, and cellular structures reclaim human form, skin becoming landscape.</p>
+        </div>
+      </div>
+      <div class="output-item">
+        <div class="output-frame">
+          <img src="images/mm-glitch.png" alt="Glitch portrait — dystopian LoRA output">
+        </div>
+        <div class="output-caption">
+          <span class="output-label">Dystopian Model</span>
+          <p>Horizontal data-stream tears fragment the face into a collision of analogue grain and digital noise — identity dissolving under informational overload.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- EXHIBITION -->
+    <div class="section-tag">Exhibition · 10 July 2026</div>
+    <h2>From concept render to a room full of visitors</h2>
+
+    <p class="body-text">
+      Mirror Mirror was shown at the CAS AI for Creative Practices exhibition (ZHdK / UniBe) on
+      10 July 2026. Hung in a darkened space, the wooden-framed mirror conceals a display and camera
+      behind two-way glass. Visitors put on a headset and are interviewed one at a time by Mira,
+      the AI persona inhabiting the mirror — then receive a printed portrait of what it decided they were.
+    </p>
+
+    <div class="exhibit-grid">
+      <figure>
+        <img src="images/mirror-mirror-exhibition-01.jpg" alt="A visitor wearing a headset stands before the mirror while a pale, ghost-like face appears in the glass" loading="lazy">
+        <figcaption>Mira appears in the glass during a live interview</figcaption>
+      </figure>
+      <figure>
+        <img src="images/mirror-mirror-exhibition-02.jpg" alt="The mirror displays the words “Every trace you leave becomes a portrait.” above a visitor’s reflection" loading="lazy">
+        <figcaption>“Every trace you leave becomes a portrait.”</figcaption>
+      </figure>
+    </div>
+
+    <figure class="concept-figure">
+      <img src="images/mirror-mirror-hero.jpg" alt="Early concept render — a visitor approaching a glowing mirror in a dark gallery space" loading="lazy">
+      <figcaption>Early concept visualisation · before fabrication</figcaption>
+    </figure>
+
+    <hr class="divider">
+
+    <!-- RESEARCH QUESTIONS -->
+    <div class="section-tag">Research Questions</div>
+    <h2>What the project set out to explore</h2>
+
+    <ul class="rq-list">
+      <li>
+        <span class="rq-num">RQ 01</span>
+        <span class="rq-text">Can AI image generation be used to make algorithmic categorisation
+        emotionally legible to a general audience?</span>
+      </li>
+      <li>
+        <span class="rq-num">RQ 02</span>
+        <span class="rq-text">How do visitors respond when they receive an AI-generated portrait
+        of themselves — recognition, estrangement, or something in between?</span>
+      </li>
+      <li>
+        <span class="rq-num">RQ 03</span>
+        <span class="rq-text">What does the choice of artistic style — as a design decision —
+        communicate about the values embedded in a machine perception system?</span>
+      </li>
+    </ul>
+
+    <hr class="divider">
+
+    <!-- PROCESS OVERVIEW -->
+    <div class="section-tag">Process Overview</div>
+    <h2>From concept to deployed installation</h2>
+
+    <p class="body-text">
+      The project moved through three intertwined streams simultaneously: <strong>curatorial</strong>
+      (selecting and assembling training datasets for each style), <strong>technical</strong>
+      (training the LoRA models, building the computer vision pipeline, integrating real-time
+      generation via Runware API), and <strong>spatial</strong> (designing the physical installation
+      experience on Raspberry Pi 5 hardware).
+    </p>
+
+    <p class="body-text" style="margin-top: 20px;">
+      Thousands of generated images were evaluated and fed back into prompt and model refinement —
+      a process that was as much curatorial editing as it was engineering. The goal was not technical
+      accuracy but aesthetic coherence: each portrait had to feel like it genuinely belonged to its
+      assigned world.
+    </p>
+
+    <!-- TECH STACK -->
+    <div class="section-tag" style="margin-top: 56px;">Technology</div>
+    <div class="tech-row">
+      <span class="tech-tag">LoRA Fine-tuning</span>
+      <span class="tech-tag">Stable Diffusion</span>
+      <span class="tech-tag">ComfyUI</span>
+      <span class="tech-tag">Runware API</span>
+      <span class="tech-tag">Computer Vision</span>
+      <span class="tech-tag">Sentiment Analysis</span>
+      <span class="tech-tag">Raspberry Pi 5</span>
+      <span class="tech-tag">Python</span>
+      <span class="tech-tag">React</span>
+      <span class="tech-tag">Real-time AI</span>
+    </div>
+
+    <p class="body-text" style="margin-top: 40px;">
+      The interview itself — Mira's five-minute dialogue with each visitor — runs on its own
+      conversation architecture: intent trees, phase transitions, and error-recovery states for
+      when the room is too loud to hear. <a href="mirror-mirror-conversation-architecture.html" class="cta-link">Read the conversation architecture →</a>
+    </p>
+
+    <!-- FOOTER CTA -->
+    <div class="case-footer">
+      <p class="footer-text">Interested in the project or a collaboration?</p>
+      <a href="mailto:barrigarandall@gmail.com" class="cta-link">Get in touch →</a>
+    </div>
+
+  </main>
+
+</body>
+</html>
