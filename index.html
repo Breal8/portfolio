@@ -348,6 +348,16 @@
             transform: translateX(5px);
         }
 
+        .project-status {
+            display: inline-block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+        }
+
         .project-media {
             background: var(--bg-primary);
             border: 1px solid var(--grid-color);
@@ -359,7 +369,25 @@
             overflow: hidden;
         }
 
-        .project-media::after {
+        .project-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.7s ease;
+        }
+
+        .project:hover .project-media img {
+            transform: scale(1.03);
+        }
+
+        .project-media a {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .project-media:empty::after {
             content: '[VISUAL DOCUMENTATION]';
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
@@ -490,7 +518,7 @@
             <div class="logo animate-in">CURIOSITY_ENGINE.CH</div>
             <h1 class="animate-in">Randall Barriga</h1>
             <p class="tagline animate-in">
-                Interaction Designer & Creative Technologist building human-AI collaboration interfaces and interactive installations
+                Interaction Designer & Creative Technologist building human-AI collaboration interfaces, conversational experiences and interactive installations
             </p>
             <div class="contact-bar animate-in">
                 <a href="mailto:randallbarriga@ied.edu">randallbarriga@ied.edu</a>
@@ -521,7 +549,8 @@
                     full spectrum from concept to deployed system.
                 </p>
                 <p>
-                    Currently completing an AI program while teaching sound design, exploring how 
+                    I recently completed the CAS AI for Creative Practices (ZHdK / UniBe), exhibiting 
+                    Mirror Mirror in July 2026, and continue to teach sound design—exploring how 
                     algorithmic systems can create meaningful, responsive experiences that empower users.
                 </p>
             </div>
@@ -531,6 +560,7 @@
                     <h3>Design</h3>
                     <ul>
                         <li>Interaction Design</li>
+                        <li>Conversation Design</li>
                         <li>After Effects</li>
                         <li>Figma / Sketch</li>
                         <li>Adobe Creative Suite</li>
@@ -551,7 +581,7 @@
         </div>
 
         <!-- Projects Section -->
-        <div class="section-header">
+        <div class="section-header" id="work">
             <span class="section-number">[02]</span>
             <h2 class="section-title">SELECTED WORK</h2>
             <div class="section-line"></div>
@@ -561,28 +591,80 @@
             <!-- Project 1: Mirror Mirror -->
             <div class="project">
                 <div class="project-content">
-                    <div class="project-label">Interactive Installation · 2024-2025</div>
+                    <div class="project-label">Interactive Installation · 2025–2026</div>
                     <h3>Mirror Mirror, What Art Am I?</h3>
                     <p class="project-description">
-                        An interactive AI mirror that analyzes visitors through computer vision, 
-                        sentiment analysis, and voice interaction—generating personalized portraits 
-                        using six custom-trained LoRA models spanning utopian to dystopian artistic 
-                        styles. Explores algorithmic legibility: How does AI categorize us? What does 
-                        algorithmic seeing reveal about human identity?
+                        An interactive AI mirror that interviews visitors through Mira, a voice-driven 
+                        AI persona, reading face and voice in parallel—then generating personalized 
+                        portraits using six custom-trained LoRA models spanning utopian to dystopian 
+                        artistic styles. Exhibited at ZHdK / UniBe in July 2026. How does AI categorize 
+                        us? What does algorithmic seeing reveal about human identity?
                     </p>
                     <div class="project-tech">
                         <span class="tech-tag">Computer Vision</span>
                         <span class="tech-tag">LoRA Training</span>
-                        <span class="tech-tag">Raspberry Pi</span>
+                        <span class="tech-tag">Conversation Design</span>
                         <span class="tech-tag">Real-time AI</span>
                         <span class="tech-tag">Sentiment Analysis</span>
                     </div>
-                    <a href="#" class="project-link">View Case Study →</a>
+                    <a href="mirror-mirror.html" class="project-link">View Case Study →</a>
                 </div>
-                <div class="project-media"></div>
+                <div class="project-media">
+                    <a href="mirror-mirror.html"><img src="images/mirror-mirror-exhibition-01.jpg" alt="A visitor wearing a headset faces the Mirror Mirror installation at the July 2026 exhibition" loading="lazy"></a>
+                </div>
             </div>
 
-            <!-- Project 2: Gesture Systems -->
+            <!-- Project 2: Blocked-Card Journey -->
+            <div class="project">
+                <div class="project-content">
+                    <div class="project-label">Conversation Design · Case Study</div>
+                    <h3>“My Card Isn't Working”</h3>
+                    <p class="project-description">
+                        An end-to-end blocked-card journey for a Swiss retail bank assistant. One entry 
+                        point resolves six different ways a card can stop working—backed by a 
+                        non-negotiable verification gate, an escalation ladder, and repair states for 
+                        mis-routing, failed verification, and social-engineering pressure. Grounded in 
+                        Wizard-of-Oz think-aloud sessions with real banking customers.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Figma Dialogue Flows</span>
+                        <span class="tech-tag">Intent Recognition</span>
+                        <span class="tech-tag">Markdown Specs</span>
+                        <span class="tech-tag">Chat &amp; Voice</span>
+                    </div>
+                    <a href="case-blocked-card.html" class="project-link">View Case Study →</a>
+                </div>
+                <div class="project-media">
+                    <a href="case-blocked-card.html"><img src="images/case01-hero.jpg" alt="A dark metallic bank card with a glowing blue fracture, surrounded by blurred chat bubbles" loading="lazy"></a>
+                </div>
+            </div>
+
+            <!-- Project 3: Mortgage Pre-Check -->
+            <div class="project">
+                <div class="project-content">
+                    <div class="project-label">Conversation Design · Generative AI</div>
+                    <h3>“Can I afford this apartment?”</h3>
+                    <p class="project-description">
+                        An LLM-assisted mortgage pre-check for the Swiss residential market, where the 
+                        advice boundary is enforced by the system, not by the model’s good behaviour. 
+                        Every number comes from a deterministic tool call, the assistant can reach only 
+                        three conclusions, and handover to a human advisor is triggered by rules—not 
+                        by the model’s judgement.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">LLM Tool Calling</span>
+                        <span class="tech-tag">Guardrails</span>
+                        <span class="tech-tag">Escalation Design</span>
+                        <span class="tech-tag">Chat</span>
+                    </div>
+                    <a href="case-mortgage-precheck.html" class="project-link">View Case Study →</a>
+                </div>
+                <div class="project-media">
+                    <a href="case-mortgage-precheck.html"><img src="images/mortgage-precheck-hero.webp" alt="A marble apartment building dissolving into streams of light that split into three outcomes: within, outside, not enough to say" loading="lazy"></a>
+                </div>
+            </div>
+
+            <!-- Project 4: Gesture Systems -->
             <div class="project">
                 <div class="project-content">
                     <div class="project-label">Interactive Visualization · 2024</div>
@@ -599,12 +681,14 @@
                         <span class="tech-tag">WebGL</span>
                         <span class="tech-tag">Motion Tracking</span>
                     </div>
-                    <a href="#" class="project-link">View Case Study →</a>
+                    <span class="project-status">Case study in progress</span>
                 </div>
-                <div class="project-media"></div>
+                <div class="project-media">
+                    <img src="images/gesture-particles-hero.jpg" alt="Gesture Particles interface with shape and colour controls and a prompt to enable hand tracking" loading="lazy">
+                </div>
             </div>
 
-            <!-- Project 3: Synesthesia -->
+            <!-- Project 5: Synesthesia -->
             <div class="project">
                 <div class="project-content">
                     <div class="project-label">Audio-Visual Installation · 2023-2024</div>
@@ -621,30 +705,11 @@
                         <span class="tech-tag">Audio Synthesis</span>
                         <span class="tech-tag">Sentiment AI</span>
                     </div>
-                    <a href="#" class="project-link">View Case Study →</a>
+                    <span class="project-status">Case study in progress</span>
                 </div>
-                <div class="project-media"></div>
-            </div>
-
-            <!-- Project 4: AI Art Detection -->
-            <div class="project">
-                <div class="project-content">
-                    <div class="project-label">Machine Learning Research · 2024</div>
-                    <h3>AI Art Detection System</h3>
-                    <p class="project-description">
-                        Vision Transformer model distinguishing AI-generated artwork from human 
-                        paintings. Deployed on edge devices (Jetson Nano), exploring questions of 
-                        authenticity in the AI art era. Can machines reliably identify machine-made art?
-                    </p>
-                    <div class="project-tech">
-                        <span class="tech-tag">Vision Transformer</span>
-                        <span class="tech-tag">PyTorch</span>
-                        <span class="tech-tag">Edge Computing</span>
-                        <span class="tech-tag">ML Training</span>
-                    </div>
-                    <a href="#" class="project-link">View Case Study →</a>
+                <div class="project-media">
+                    <img src="images/synesthesia-hero.jpg" alt="A marble bust emitting streams of coloured light and sound waves" loading="lazy">
                 </div>
-                <div class="project-media"></div>
             </div>
         </div>
 
@@ -655,7 +720,7 @@
                 <a href="mailto:randallbarriga@ied.edu">randallbarriga@ied.edu</a>
             </div>
             <div class="footer-meta">
-                © 2025 Curiosity Engine · Designed & Built by Randall Barriga · Bern, Switzerland
+                © 2026 Curiosity Engine · Designed & Built by Randall Barriga · Bern, Switzerland
             </div>
         </footer>
     </div>
